@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Message, getMessage } from '../data/messages';
+import { getMessage } from '../data/messages';
+import { Item } from "rss-parser";
 import {
   IonBackButton,
   IonButtons,
@@ -21,7 +22,7 @@ interface ViewMessageProps extends RouteComponentProps<{ id: string; }> { }
 
 const ViewMessage: React.FC<ViewMessageProps> = ({ match }) => {
 
-  const [message, setMessage] = useState<Message>();
+  const [message, setMessage] = useState<Item>();
 
   useIonViewWillEnter(() => {
     const msg = getMessage(parseInt(match.params.id, 10));

@@ -1,6 +1,7 @@
 import MessageListItem from '../components/MessageListItem';
 import React, { useState } from 'react';
-import { Message, getMessages } from '../data/messages';
+import { getMessages } from '../data/messages';
+import { Item } from "rss-parser";
 import {
   IonContent,
   IonHeader,
@@ -16,10 +17,10 @@ import './Home.css';
 
 const Home: React.FC = () => {
 
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Item[] | undefined>([]);
 
-  useIonViewWillEnter(() => {
-    const msgs = getMessages();
+  useIonViewWillEnter(async() => {
+    const msgs = await getMessages();
     setMessages(msgs);
   });
 
@@ -50,7 +51,7 @@ const Home: React.FC = () => {
         </IonHeader>
 
         <IonList>
-          {messages.map(m => <MessageListItem key={m.id} message={m} />)}
+          {messages?.map(m => <MessageListItem key={m.id} message={m} />)}
         </IonList>
       </IonContent>
     </IonPage>
