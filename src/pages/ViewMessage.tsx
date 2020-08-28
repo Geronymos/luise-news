@@ -25,7 +25,7 @@ const ViewMessage: React.FC<ViewMessageProps> = ({ match }) => {
   const [message, setMessage] = useState<Item>();
 
   useIonViewWillEnter(() => {
-    const msg = getMessage(parseInt(match.params.id, 10));
+    const msg = getMessage(match.params.id);
     setMessage(msg);
   });
 

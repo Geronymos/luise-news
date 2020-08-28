@@ -10,7 +10,8 @@ export const getMessages = async() => {
   const RSS = await parser.parseURL(url);
   console.log(RSS);
   messages = RSS.items;
+  console.log(messages);
   return messages;
 };
 
-export const getMessage = (id: number) => messages?.find(m => m.id === id);
+export const getMessage = (id: string) => messages?.find(m => (m.title || "") === id);

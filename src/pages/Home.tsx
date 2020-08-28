@@ -51,7 +51,7 @@ const Home: React.FC = () => {
         </IonHeader>
 
         <IonList>
-          {messages?.map(m => <MessageListItem key={m.id} message={m} />)}
+          {messages?.map(m => <MessageListItem key={m.title} message={m} />)}
         </IonList>
       </IonContent>
     </IonPage>
