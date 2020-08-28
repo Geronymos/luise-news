@@ -1,0 +1,7 @@
+{
+  "name": "LuiRSS",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
