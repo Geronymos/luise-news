@@ -11,7 +11,8 @@ import {
   IonRefresherContent,
   IonTitle,
   IonToolbar,
-  useIonViewWillEnter
+  useIonViewWillEnter,
+  IonAvatar,
 } from '@ionic/react';
 import './Home.css';
 
@@ -19,7 +20,7 @@ const Home: React.FC = () => {
 
   const [messages, setMessages] = useState<Item[] | undefined>([]);
 
-  useIonViewWillEnter(async() => {
+  useIonViewWillEnter(async () => {
     const msgs = await getMessages();
     setMessages(msgs);
   });
@@ -34,7 +35,10 @@ const Home: React.FC = () => {
     <IonPage id="home-page">
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Inbox</IonTitle>
+          <IonAvatar slot="start" style={{padding: "10px"}}>
+            <img src="assets/icon/lui.png" alt="Logo" />
+          </IonAvatar>
+          <IonTitle>Luise-News</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -45,7 +49,7 @@ const Home: React.FC = () => {
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">
-              Inbox
+              Luise-News
             </IonTitle>
           </IonToolbar>
         </IonHeader>
