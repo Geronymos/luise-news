@@ -25,17 +25,17 @@ const Home: React.FC = () => {
     setMessages(msgs);
   });
 
-  const refresh = (e: CustomEvent) => {
-    setTimeout(() => {
-      e.detail.complete();
-    }, 3000);
+  const refresh = async (e: CustomEvent) => {
+    const msgs = await getMessages(true);
+    setMessages(msgs);
+    e.detail.complete();
   };
 
   return (
     <IonPage id="home-page">
       <IonHeader>
         <IonToolbar>
-          <IonAvatar slot="start" style={{padding: "10px"}}>
+          <IonAvatar slot="start" style={{ padding: "10px" }}>
             <img src="assets/icon/lui.png" alt="Logo" />
           </IonAvatar>
           <IonTitle>Luise-News</IonTitle>

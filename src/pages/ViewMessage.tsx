@@ -24,8 +24,8 @@ const ViewMessage: React.FC<ViewMessageProps> = ({ match }) => {
 
   const [message, setMessage] = useState<Item>();
 
-  useIonViewWillEnter(() => {
-    const msg = getMessage(match.params.id);
+  useIonViewWillEnter(async() => {
+    const msg = await getMessage(match.params.id);
     setMessage(msg);
   });
 
@@ -50,7 +50,7 @@ const ViewMessage: React.FC<ViewMessageProps> = ({ match }) => {
               </p>
             </div>
           </>
-        ) : <div>Message not found</div>}
+        ) : <div>Loading</div>}
       </IonContent>
     </IonPage>
   );

@@ -1,17 +1,11 @@
-import Parser, {Item} from "rss-parser";
+import Parser, { Item } from "rss-parser";
 
-let messages: Item[] | undefined = [
-];
+let news: Item[] | undefined;
 
 const parser = new Parser();
 const url = "http://cors-anywhere.herokuapp.com/https://halloluise.de/feed/";
 
-export const getMessages = async() => {
-  const RSS = await parser.parseURL(url);
-  console.log(RSS);
-  messages = RSS.items;
-  console.log(messages);
-  return messages;
-};
+// Show preload news if it should not reload and there are preload news, else load the news
+export const getMessages = async (reload: boolean = false) => (!reload && news) ? news : (news = (await parser.parseURL(url))?.items);
 
-export const getMessage = (id: string) => messages?.find(m => (m.title || "") === id);
+export const getMessage = async (id: string) => (await getMessages())?.find(m => (m.title || "") === id);
