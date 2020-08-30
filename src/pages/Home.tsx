@@ -13,12 +13,13 @@ import {
   IonToolbar,
   useIonViewWillEnter,
   IonAvatar,
+  IonItem,
 } from '@ionic/react';
 import './Home.css';
 
 const Home: React.FC = () => {
 
-  const [messages, setMessages] = useState<Item[] | undefined>([]);
+  const [messages, setMessages] = useState<Item[] | undefined>();
 
   useIonViewWillEnter(async () => {
     const msgs = await getMessages();
@@ -55,7 +56,7 @@ const Home: React.FC = () => {
         </IonHeader>
 
         <IonList>
-          {messages?.map(m => <MessageListItem key={m.title} message={m} />)}
+          {messages?.map(m => <MessageListItem key={m.title} message={m} />) || "Loading"}
         </IonList>
       </IonContent>
     </IonPage>
