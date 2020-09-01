@@ -14,22 +14,31 @@ import {
   useIonViewWillEnter,
   IonAvatar,
   IonItem,
+  IonButtons,
+  IonPopover,
+  IonButton,
+  IonIcon,
+  IonProgressBar,
 } from '@ionic/react';
+import { ellipsisVertical, ellipsisHorizontal } from 'ionicons/icons';
 import './Home.css';
 
 const Home: React.FC = () => {
 
   const [messages, setMessages] = useState<Item[] | undefined>();
+  const [showPopover, setShowPopover] = useState<{ open: boolean, event: Event | undefined }>({ open: false, event: undefined });
 
   useIonViewWillEnter(async () => {
-    const msgs = await getMessages();
-    setMessages(msgs);
+    await refresh(undefined);
   });
 
-  const refresh = async (e: CustomEvent) => {
-    const msgs = await getMessages(true);
+  const refresh = async (e?: CustomEvent, reload: boolean = false) => {
+    setMessages(undefined);
+    setShowPopover({ open: false, event: undefined });
+    const msgs = await getMessages(reload);
+    
     setMessages(msgs);
-    e.detail.complete();
+    e?.detail.complete();
   };
 
   return (
@@ -40,23 +49,40 @@ const Home: React.FC = () => {
             <img src="assets/icon/lui.png" alt="Logo" />
           </IonAvatar>
           <IonTitle>Luise-News</IonTitle>
+          <IonButtons slot="end">
+            <IonPopover
+              isOpen={showPopover.open}
+              event={showPopover.event}
+              cssClass='my-custom-class'
+              onDidDismiss={e => setShowPopover({ open: false, event: undefined })}
+            >
+              <IonList>
+                <IonItem onClick={() => refresh(undefined, true)}>Aktualisieren</IonItem>
+                <IonItem>Über</IonItem>
+              </IonList>
+            </IonPopover>
+            <IonButton onClick={(event) => setShowPopover({ open: true, event: event.nativeEvent })}>
+              <IonIcon slot="icon-only" ios={ellipsisHorizontal} md={ellipsisVertical}></IonIcon>
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonRefresher slot="fixed" onIonRefresh={refresh}>
+        <IonRefresher slot="fixed" onIonRefresh={e => refresh(e, true)}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
+        {messages ? "" : <IonProgressBar type="indeterminate"></IonProgressBar>}
 
-        <IonHeader collapse="condense">
+        {/* <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">
               Luise-News
             </IonTitle>
           </IonToolbar>
-        </IonHeader>
+        </IonHeader> */}
 
         <IonList>
-          {messages?.map(m => <MessageListItem key={m.title} message={m} />) || "Loading"}
+          {messages?.map(m => <MessageListItem key={m.title} message={m} />) || ""}
         </IonList>
       </IonContent>
     </IonPage>
