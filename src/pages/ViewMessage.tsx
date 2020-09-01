@@ -6,17 +6,16 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
-  IonIcon,
-  IonItem,
-  IonLabel,
   IonNote,
   IonPage,
   IonToolbar,
-  useIonViewWillEnter
+  useIonViewWillEnter,
+  IonIcon,
+  IonButton,
 } from '@ionic/react';
-import { personCircle } from 'ionicons/icons';
 import { RouteComponentProps } from 'react-router';
 import './ViewMessage.css';
+import { exitOutline } from 'ionicons/icons';
 
 interface ViewMessageProps extends RouteComponentProps<{ id: string; }> { }
 
@@ -24,7 +23,7 @@ const ViewMessage: React.FC<ViewMessageProps> = ({ match }) => {
 
   const [message, setMessage] = useState<Item>();
 
-  useIonViewWillEnter(async() => {
+  useIonViewWillEnter(async () => {
     const msg = await getMessage(match.params.id);
     setMessage(msg);
   });
@@ -35,6 +34,11 @@ const ViewMessage: React.FC<ViewMessageProps> = ({ match }) => {
         <IonToolbar>
           <IonButtons>
             <IonBackButton text="Inbox" defaultHref="/home"></IonBackButton>
+          </IonButtons>
+          <IonButtons slot="end">
+            <IonButton href={message?.link || "#"} target="_blank">
+              <IonIcon slot="icon-only" ios={exitOutline} md={exitOutline}></IonIcon>
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
