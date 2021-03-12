@@ -12,10 +12,17 @@ import {
   useIonViewWillEnter,
   IonIcon,
   IonButton,
+  IonFab,
+  IonFabButton,
 } from '@ionic/react';
 import { RouteComponentProps } from 'react-router';
 import './ViewMessage.css';
-import { exitOutline } from 'ionicons/icons';
+import { exitOutline, shareSocialOutline } from 'ionicons/icons';
+
+import { Plugins } from '@capacitor/core';
+const { Share } = Plugins;
+
+const share = async ({ title, contentSnippet: text, link: url }: Item) => await Share.share({ title, text, url, dialogTitle: 'Teile mit deinen Mitschülern' });
 
 interface ViewMessageProps extends RouteComponentProps<{ id: string; }> { }
 
@@ -37,13 +44,18 @@ const ViewMessage: React.FC<ViewMessageProps> = ({ match }) => {
           </IonButtons>
           <IonButtons slot="end">
             <IonButton href={message?.link || "#"} target="_blank">
-              <IonIcon slot="icon-only" ios={exitOutline} md={exitOutline}></IonIcon>
+              <IonIcon slot="icon-only" icon={exitOutline}></IonIcon>
             </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
 
       <IonContent fullscreen>
+        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton onClick={() => message && share(message)}>
+            <IonIcon icon={shareSocialOutline} />
+          </IonFabButton>
+        </IonFab>
         {message ? (
           <>
             <div className="ion-padding">
