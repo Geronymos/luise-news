@@ -28,7 +28,7 @@ interface ViewMessageProps extends RouteComponentProps<{ id: string; }> { }
 
 const ViewMessage: React.FC<ViewMessageProps> = ({ match }) => {
 
-  const [message, setMessage] = useState<Item>();
+  const [message, setMessage] = useState<any>();
 
   useIonViewWillEnter(async () => {
     const msg = await getMessage(match.params.id);
