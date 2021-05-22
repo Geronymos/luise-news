@@ -1,7 +1,6 @@
 import MessageListItem from '../components/MessageListItem';
 import React, { useState } from 'react';
-import { getMessages } from '../data/messages';
-import { Item } from "rss-parser";
+import { getEvents } from '../data/calendar';
 import {
   IonContent,
   IonHeader,
@@ -9,24 +8,18 @@ import {
   IonPage,
   IonRefresher,
   IonRefresherContent,
-  IonTitle,
-  IonToolbar,
   useIonViewWillEnter,
-  IonAvatar,
   IonItem,
-  IonButtons,
-  IonPopover,
-  IonButton,
-  IonIcon,
   IonProgressBar,
+  IonLabel,
+  IonNote,
 } from '@ionic/react';
-import { ellipsisVertical, ellipsisHorizontal } from 'ionicons/icons';
 import './Home.css';
 import Header from '../components/Header';
 
 const Home: React.FC = () => {
 
-  const [messages, setMessages] = useState<Item[] | undefined>();
+  const [messages, setMessages] = useState<any[] | undefined>();
 
   useIonViewWillEnter(async () => {
     await refresh(undefined);
@@ -34,7 +27,7 @@ const Home: React.FC = () => {
 
   const refresh = async (e?: CustomEvent, reload: boolean = false) => {
     setMessages(undefined);
-    const msgs = await getMessages(reload);
+    const msgs = await getEvents(reload);
 
     setMessages(msgs);
     e?.detail.complete();
@@ -54,7 +47,21 @@ const Home: React.FC = () => {
         {messages ? "" : <IonProgressBar type="indeterminate"></IonProgressBar>}
 
         <IonList>
-          {messages?.map(m => <MessageListItem key={m.title} message={m} />) || ""}
+          {/* {messages?.map(m => <MessageListItem key={m.uid} message={{title: m.summary, pubDate: m.start, contentSnippet: m.description}} />) || ""} */}
+          {messages?.map(m => (
+            <IonItem detail={false}>
+              <IonLabel className="ion-text-wrap">
+                <IonNote>{m.start.toLocaleString() + " - " + m.end.toLocaleString()}</IonNote>
+                <h2>
+                  {m.summary}
+                </h2>
+                <h3>{m.description}</h3>
+                <p>
+                  {/* {message.contentSnippet} */}
+                </p>
+              </IonLabel>
+            </IonItem>
+          ))}
         </IonList>
       </IonContent>
     </IonPage>

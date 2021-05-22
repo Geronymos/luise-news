@@ -16,7 +16,7 @@ const MessageListItem: React.FC<MessageListItemProps> = ({ message }) => {
   return (
     <IonItem routerLink={`/message/${encodeURI(message.title || "")}`} detail={false}>
       <IonLabel className="ion-text-wrap">
-        <IonNote>{message.pubDate}</IonNote>
+        <IonNote>{new Date(message.pubDate || "").toLocaleString()}</IonNote>
         <h2>
           {message.title}
         </h2>

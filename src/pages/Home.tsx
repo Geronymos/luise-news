@@ -9,19 +9,10 @@ import {
   IonPage,
   IonRefresher,
   IonRefresherContent,
-  IonTitle,
-  IonToolbar,
   useIonViewWillEnter,
-  IonAvatar,
   IonItem,
-  IonButtons,
-  IonPopover,
-  IonButton,
-  IonIcon,
   IonProgressBar,
-  useIonAlert,
 } from '@ionic/react';
-import { ellipsisVertical, ellipsisHorizontal } from 'ionicons/icons';
 import './Home.css';
 import Header from "../components/Header";
 

@@ -59,7 +59,7 @@ const ViewMessage: React.FC<ViewMessageProps> = ({ match }) => {
         {message ? (
           <>
             <div className="ion-padding">
-              <IonNote>{message.pubDate}</IonNote>
+              <IonNote>{new Date(message.pubDate || "").toLocaleString()}</IonNote>
               <h1>{message.title}</h1>
               <p>
                 {message["content:encodedSnippet"]}
