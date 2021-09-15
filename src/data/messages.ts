@@ -5,8 +5,7 @@ import request from "./request";
 let news: Item[] | undefined;
 
 const parser = new Parser();
-const url = "https://halloluise.de/feed/";
-// const url = "http://halloluise.de/feed/";
+const url = process.env.RSS_URL;
 
 // Show preload news if it should not reload and there are preload news, else load the news
 export async function getMessages (reload: boolean = false):Promise<any> {
